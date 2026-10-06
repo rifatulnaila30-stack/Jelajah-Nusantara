@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jelajah Nusantara — Bahasa Indonesia Kelas 7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --terracotta:#d9703f;
+    --terracotta-deep:#b85530;
+    --teal:#1f6f6b;
+    --teal-deep:#14514e;
+    --gold:#d8a73d;
+    --sand:#fff8ec;
+    --sand-soft:#fdeedb;
+    --ink:#3a2c22;
+    --ink-soft:#8c7a68;
+    --line:#f0ddc0;
+    --shadow: 0 20px 50px -25px rgba(184,85,48,0.35);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Nunito',sans-serif;
+    background:
+      radial-gradient(circle at 10% -10%, #ffe6c9 0%, transparent 42%),
+      radial-gradient(circle at 108% 8%, #e5f3ef 0%, transparent 40%),
+      radial-gradient(circle at 50% 115%, #ffe9d2 0%, transparent 45%),
+      var(--sand);
+    color:var(--ink);
+    min-height:100%;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Fredoka',sans-serif;}
+  a{color:inherit;}
+
+  .motif{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;}
+  .motif span{position:absolute; opacity:.5;}
+
+  .screen{position:relative; z-index:1; min-height:100vh; min-height:100dvh; display:none;}
+  .screen.active{display:block;}
+
+  .auth-wrap{min-height:100vh; min-height:100dvh; display:flex; align-items:center; justify-content:center; padding:32px 20px;}
+  .auth-card{
+    width:100%; max-width:390px; background:var(--sand);
+    border:1px solid var(--line); border-radius:26px;
+    padding:38px 32px 32px; box-shadow:var(--shadow); position:relative;
+  }
+  .brandmark{display:flex; align-items:center; gap:10px; justify-content:center; margin-bottom:18px;}
+  .brandmark .dot{width:10px;height:10px;border-radius:3px; background:var(--terracotta); transform:rotate(45deg);}
+  .brandmark span{font-family:'Fredoka',sans-serif; font-weight:600; font-size:1.3rem; letter-spacing:.01em; color:var(--teal-deep);}
+  .auth-card h1{font-size:1.7rem; font-weight:600; text-align:center; margin-bottom:6px;}
+  .auth-sub{text-align:center; color:var(--ink-soft); font-size:.92rem; margin-bottom:26px; line-height:1.5;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:.78rem; color:var(--ink-soft); margin-bottom:6px; font-weight:700;}
+  .field input{
+    width:100%; padding:13px 15px; border-radius:12px;
+    border:1.5px solid var(--line); background:var(--sand-soft);
+    font-family:'Nunito',sans-serif; font-size:.95rem; color:var(--ink);
+    outline:none; transition:border-color .15s ease, background .15s ease;
+  }
+  .field input:focus{border-color:var(--terracotta); background:var(--sand);}
+
+  .btn-primary{
+    width:100%; padding:14px; border:none; border-radius:12px;
+    background:var(--terracotta); color:#fff; font-family:'Nunito',sans-serif;
+    font-size:.95rem; font-weight:800; letter-spacing:.01em;
+    cursor:pointer; margin-top:6px; transition:background .15s ease, transform .1s ease;
+  }
+  .btn-primary:hover{background:var(--terracotta-deep);}
+  .btn-primary:active{transform:scale(.98);}
+
+  .switch-line{text-align:center; margin-top:20px; font-size:.88rem; color:var(--ink-soft);}
+  .switch-line button{background:none; border:none; color:var(--teal-deep); font-weight:800; cursor:pointer; font-size:.88rem; font-family:'Nunito',sans-serif; padding:0;}
+  .form-note{font-size:.76rem; color:var(--ink-soft); text-align:center; margin-top:14px; line-height:1.5;}
+
+  .topbar{
+    position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; padding-top:calc(16px + env(safe-area-inset-top,0px));
+    background:rgba(255,248,236,.9); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+  }
+  .topbar .brandmark{margin-bottom:0;}
+  nav.tabs{display:flex; gap:4px; background:var(--sand-soft); padding:4px; border-radius:999px; border:1px solid var(--line);}
+  nav.tabs button{
+    border:none; background:none; padding:8px 16px; border-radius:999px;
+    font-family:'Nunito',sans-serif; font-size:.82rem; font-weight:700; color:var(--ink-soft);
+    cursor:pointer; transition:background .15s ease, color .15s ease;
+  }
+  nav.tabs button.on{background:var(--teal); color:#fff;}
+  .logout-btn{
+    border:1.5px solid var(--line); background:var(--sand); color:var(--ink-soft);
+    padding:8px 16px; border-radius:999px; font-family:'Nunito',sans-serif;
+    font-size:.8rem; font-weight:700; cursor:pointer; transition:border-color .15s ease, color .15s ease;
+  }
+  .logout-btn:hover{border-color:var(--terracotta); color:var(--terracotta-deep);}
+
+  .page{max-width:780px; margin:0 auto; padding:52px 24px 80px;}
+
+  .eyebrow{color:var(--terracotta-deep); font-size:.8rem; font-weight:800; margin-bottom:12px; letter-spacing:.03em; text-transform:uppercase;}
+  .hero h1{font-size:clamp(2.1rem,5.6vw,3rem); line-height:1.15; font-weight:700; margin-bottom:16px;}
+  .hero h1 em{font-style:normal; color:var(--terracotta);}
+  .hero p{max-width:50ch; color:var(--ink-soft); font-size:1.02rem; line-height:1.7; margin-bottom:24px;}
+  .hero-cta{display:flex; gap:12px; flex-wrap:wrap;}
+  .pill-btn{padding:13px 24px; border-radius:999px; font-family:'Nunito',sans-serif; font-weight:800; font-size:.88rem; cursor:pointer; border:1.5px solid transparent;}
+  .pill-btn.fill{background:var(--teal); color:#fff;}
+  .pill-btn.fill:hover{background:var(--teal-deep);}
+  .pill-btn.ghost{background:transparent; border-color:var(--line); color:var(--ink);}
+  .pill-btn.ghost:hover{border-color:var(--terracotta);}
+
+  .hero-visual{
+    position:relative; width:min(320px,72vw); aspect-ratio:1; border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #fff, var(--sand-soft) 72%);
+    border:1px solid var(--line); margin:44px auto 0;
+    display:flex; align-items:flex-end; justify-content:center;
+    padding-bottom:22px;
+  }
+  .hero-visual .deco{position:absolute;}
+  .hero-visual .deco.d1{top:10%; left:12%; width:28px;}
+  .hero-visual .deco.d2{top:14%; right:10%; width:20px; opacity:.85;}
+  .hero-caption{text-align:center; margin-top:16px; font-family:'Fredoka',sans-serif; font-weight:600; font-size:1.2rem; color:var(--teal-deep);}
+
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:52px;}
+  .grid3 .card{border:1px solid var(--line); border-radius:18px; padding:22px 18px; background:var(--sand-soft);}
+  .grid3 .card .num{display:block; margin-bottom:10px;}
+  .grid3 .card h3{font-size:.98rem; font-weight:700; margin-bottom:6px; font-family:'Fredoka',sans-serif;}
+  .grid3 .card p{font-size:.84rem; color:var(--ink-soft); line-height:1.5;}
+
+  @media (max-width:600px){ .grid3{grid-template-columns:1fr;} nav.tabs{display:none;} }
+
+  .about-hero{margin-bottom:40px;}
+  .about-hero h1{font-size:clamp(1.9rem,4.6vw,2.6rem); font-weight:700; margin-bottom:14px;}
+  .about-hero p{color:var(--ink-soft); line-height:1.75; max-width:60ch;}
+  .value-list{display:flex; flex-direction:column; border-top:1px solid var(--line);}
+  .value-item{display:flex; gap:20px; padding:22px 0; border-bottom:1px solid var(--line);}
+  .value-item .tag{font-family:'Fredoka',sans-serif; font-weight:600; font-size:1.4rem; color:var(--terracotta); min-width:48px;}
+  .value-item h3{font-size:1.02rem; font-weight:700; margin-bottom:6px; font-family:'Fredoka',sans-serif;}
+  .value-item p{color:var(--ink-soft); font-size:.9rem; line-height:1.6; max-width:54ch;}
+
+  button:focus-visible, input:focus-visible{outline:2px solid var(--teal-deep); outline-offset:2px;}
+  @media (prefers-reduced-motion:no-preference){
+    .auth-card{animation:rise .5s ease both;}
+    @keyframes rise{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+  }
+</style>
+</head>
+<body>
+
+<div class="motif" id="motif"></div>
+
+<!-- LOGIN -->
+<section class="screen active" id="screen-login">
+  <div class="auth-wrap">
+    <form class="auth-card" id="form-login" novalidate>
+      <svg width="30" height="30" viewBox="0 0 40 40" style="display:block;margin:0 auto 8px;">
+        <circle cx="20" cy="20" r="17" fill="none" stroke="var(--terracotta)" stroke-width="2.5"/>
+        <path d="M20 6 L22 18 L20 20 L18 18 Z" fill="var(--teal)"/>
+        <circle cx="20" cy="20" r="3" fill="var(--gold)"/>
+      </svg>
+      <div class="brandmark"><span class="dot"></span><span>Jelajah Nusantara</span></div>
+      <h1>Selamat datang kembali</h1>
+      <p class="auth-sub">Masuk untuk melanjutkan petualangan belajar Bahasa Indonesia-mu.</p>
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input id="login-email" type="email" placeholder="nama@sekolah.id" required>
+      </div>
+      <div class="field">
+        <label for="login-pass">Kata sandi</label>
+        <input id="login-pass" type="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn-primary">Masuk</button>
+      <p class="switch-line">Belum punya akun? <button type="button" id="go-signup">Daftar di sini</button></p>
+      <p class="form-note">Demo tugas UI/UX Multimedia Interaktif — isi email &amp; kata sandi apa saja, tidak ada data yang dikirim atau disimpan.</p>
+    </form>
+  </div>
+</section>
+
+<!-- SIGN UP -->
+<section class="screen" id="screen-signup">
+  <div class="auth-wrap">
+    <form class="auth-card" id="form-signup" novalidate>
+      <svg width="30" height="30" viewBox="0 0 40 40" style="display:block;margin:0 auto 8px;">
+        <circle cx="20" cy="20" r="17" fill="none" stroke="var(--terracotta)" stroke-width="2.5"/>
+        <path d="M20 6 L22 18 L20 20 L18 18 Z" fill="var(--teal)"/>
+        <circle cx="20" cy="20" r="3" fill="var(--gold)"/>
+      </svg>
+      <div class="brandmark"><span class="dot"></span><span>Jelajah Nusantara</span></div>
+      <h1>Buat akun baru</h1>
+      <p class="auth-sub">Daftar untuk mulai menjelajah keberagaman budaya Nusantara.</p>
+      <div class="field">
+        <label for="signup-name">Nama lengkap</label>
+        <input id="signup-name" type="text" placeholder="Nama kamu" required>
+      </div>
+      <div class="field">
+        <label for="signup-email">Email</label>
+        <input id="signup-email" type="email" placeholder="nama@sekolah.id" required>
+      </div>
+      <div class="field">
+        <label for="signup-pass">Kata sandi</label>
+        <input id="signup-pass" type="password" placeholder="Buat kata sandi" required>
+      </div>
+      <button type="submit" class="btn-primary">Daftar</button>
+      <p class="switch-line">Sudah punya akun? <button type="button" id="go-login">Masuk</button></p>
+    </form>
+  </div>
+</section>
+
+<!-- HOME -->
+<section class="screen" id="screen-home">
+  <header class="topbar">
+    <div class="brandmark"><span class="dot"></span><span>Jelajah Nusantara</span></div>
+    <nav class="tabs">
+      <button class="on" data-tab="home">Beranda</button>
+      <button data-tab="about">Tentang</button>
+    </nav>
+    <button class="logout-btn" id="logout-btn">Keluar</button>
+  </header>
+  <div class="page">
+    <p class="eyebrow" id="greet-name">Halo!</p>
+    <div class="hero">
+      <h1>Yuk, <em>jelajahi</em> kekayaan bahasa dan budaya Nusantara!</h1>
+      <p>Modul Bahasa Indonesia kelas 7 ini mengajakmu mengenal keberagaman daerah lewat teks deskripsi, cerita rakyat, dan kosakata khas dari Sabang sampai Merauke.</p>
+      <div class="hero-cta">
+        <button class="pill-btn fill" type="button">Mulai belajar</button>
+        <button class="pill-btn ghost" type="button" data-tab="about">Tentang modul</button>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <svg class="deco d1" viewBox="0 0 40 40"><path d="M20 4 L23 16 L20 20 L17 16 Z" fill="var(--teal)"/><circle cx="20" cy="20" r="3" fill="var(--gold)"/></svg>
+      <svg class="deco d2" viewBox="0 0 40 40"><path d="M20 4 L23 16 L20 20 L17 16 Z" fill="var(--terracotta)" opacity="0.8"/></svg>
+      <svg width="190" height="130" viewBox="0 0 190 130">
+        <ellipse cx="95" cy="110" rx="80" ry="10" fill="var(--sand-soft)"/>
+        <path d="M20 95 Q35 55 70 70 Q85 40 110 65 Q140 50 165 85 Q150 100 120 95 Q90 105 60 98 Q35 102 20 95Z" fill="var(--teal)" opacity="0.85"/>
+        <path d="M70 70 L74 58 L78 70Z" fill="var(--teal-deep)"/>
+        <path d="M110 65 L114 50 L118 65Z" fill="var(--teal-deep)"/>
+        <circle cx="150" cy="30" r="14" fill="var(--gold)" opacity="0.9"/>
+        <path d="M30 85 q6 -10 12 0" stroke="var(--terracotta)" stroke-width="2" fill="none"/>
+        <path d="M140 92 q6 -10 12 0" stroke="var(--terracotta)" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+    <p class="hero-caption">selamat datang, penjelajah!</p>
+
+    <div class="grid3">
+      <div class="card">
+        <svg class="num" width="30" height="30" viewBox="0 0 40 40"><rect x="7" y="9" width="26" height="22" rx="2" fill="var(--sand)" stroke="var(--terracotta)" stroke-width="2"/><line x1="20" y1="9" x2="20" y2="31" stroke="var(--terracotta)" stroke-width="2"/><line x1="11" y1="15" x2="17" y2="15" stroke="var(--ink-soft)" stroke-width="1.5"/><line x1="11" y1="20" x2="17" y2="20" stroke="var(--ink-soft)" stroke-width="1.5"/></svg>
+        <h3>Teks deskripsi</h3><p>Belajar menggambarkan tempat dan budaya daerah dengan kata-katamu sendiri.</p>
+      </div>
+      <div class="card">
+        <svg class="num" width="30" height="30" viewBox="0 0 40 40"><path d="M20 6 L23 18 L20 20 L17 18 Z" fill="var(--teal)"/><circle cx="20" cy="26" r="9" fill="none" stroke="var(--teal)" stroke-width="2"/><circle cx="20" cy="26" r="2" fill="var(--gold)"/></svg>
+        <h3>Cerita rakyat</h3><p>Menjelajahi legenda dan dongeng dari berbagai pulau di Nusantara.</p>
+      </div>
+      <div class="card">
+        <svg class="num" width="30" height="30" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="none" stroke="var(--terracotta)" stroke-width="2"/><path d="M20 20 L26 14" stroke="var(--terracotta)" stroke-width="2"/><circle cx="20" cy="20" r="2" fill="var(--terracotta)"/></svg>
+        <h3>Kosakata daerah</h3><p>Mengenal istilah dan ungkapan khas dari berbagai suku di Indonesia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="screen" id="screen-about">
+  <header class="topbar">
+    <div class="brandmark"><span class="dot"></span><span>Jelajah Nusantara</span></div>
+    <nav class="tabs">
+      <button data-tab="home">Beranda</button>
+      <button class="on" data-tab="about">Tentang</button>
+    </nav>
+    <button class="logout-btn" id="logout-btn-2">Keluar</button>
+  </header>
+  <div class="page">
+    <div class="about-hero">
+      <svg width="42" height="42" viewBox="0 0 40 40" style="margin-bottom:16px;">
+        <circle cx="20" cy="20" r="17" fill="none" stroke="var(--terracotta)" stroke-width="2.5"/>
+        <path d="M20 6 L23 18 L20 20 L17 18 Z" fill="var(--teal)"/>
+        <circle cx="20" cy="20" r="3" fill="var(--gold)"/>
+      </svg>
+      <h1>Satu Nusantara, beragam cerita.</h1>
+      <p>Jelajah Nusantara adalah modul pembelajaran Bahasa Indonesia kelas 7 yang mengajak siswa mengenal kekayaan budaya, bahasa daerah, dan kearifan lokal Indonesia melalui teks deskripsi, narasi, dan kosakata kontekstual.</p>
+    </div>
+    <div class="value-list">
+      <div class="value-item"><span class="tag">01</span><div><h3>Belajar sambil menjelajah</h3><p>Setiap materi dikemas seperti perjalanan dari satu daerah ke daerah lain di Nusantara.</p></div></div>
+      <div class="value-item"><span class="tag">02</span><div><h3>Dekat dengan budaya lokal</h3><p>Contoh teks dan latihan diambil dari keragaman tradisi, makanan, dan cerita rakyat Indonesia.</p></div></div>
+      <div class="value-item"><span class="tag">03</span><div><h3>Mendukung keterampilan menulis</h3><p>Siswa dilatih menyusun teks deskripsi dan narasi dengan struktur yang runtut dan jelas.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var screens = ['login','signup','home','about'];
+  function show(name){
+    screens.forEach(function(s){ document.getElementById('screen-'+s).classList.toggle('active', s===name); });
+    window.scrollTo(0,0);
+  }
+  function setTab(tab){
+    show(tab);
+    document.querySelectorAll('nav.tabs button').forEach(function(b){ b.classList.toggle('on', b.dataset.tab===tab); });
+  }
+
+  document.getElementById('go-signup').addEventListener('click', function(){ show('signup'); });
+  document.getElementById('go-login').addEventListener('click', function(){ show('login'); });
+
+  document.getElementById('form-login').addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = document.getElementById('login-email').value.trim();
+    var name = email ? email.split('@')[0] : 'penjelajah';
+    document.getElementById('greet-name').textContent = 'Halo, ' + name + '!';
+    setTab('home');
+  });
+
+  document.getElementById('form-signup').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('signup-name').value.trim() || 'penjelajah';
+    document.getElementById('greet-name').textContent = 'Halo, ' + name + '!';
+    setTab('home');
+  });
+
+  document.querySelectorAll('nav.tabs button').forEach(function(b){ b.addEventListener('click', function(){ setTab(b.dataset.tab); }); });
+  document.querySelectorAll('.hero-cta [data-tab]').forEach(function(b){ b.addEventListener('click', function(){ setTab(b.dataset.tab); }); });
+
+  function doLogout(){
+    document.getElementById('form-login').reset();
+    document.getElementById('form-signup').reset();
+    show('login');
+  }
+  document.getElementById('logout-btn').addEventListener('click', doLogout);
+  document.getElementById('logout-btn-2').addEventListener('click', doLogout);
+
+  var wrap = document.getElementById('motif');
+  var n = 8;
+  for(var i=0;i<n;i++){
+    var el = document.createElement('span');
+    el.innerHTML = '<svg width="34" height="34" viewBox="0 0 40 40"><path d="M20 4 L23 16 L20 20 L17 16 Z" fill="#d9703f"/></svg>';
+    el.style.position='absolute';
+    el.style.left = (Math.random()*100)+'%';
+    el.style.top = (Math.random()*100)+'%';
+    el.style.opacity = (0.15 + Math.random()*0.2).toFixed(2);
+    el.style.transform = 'rotate('+Math.floor(Math.random()*360)+'deg) scale('+(0.6+Math.random()*0.8).toFixed(2)+')';
+    wrap.appendChild(el);
+  }
+})();
+</script>
+</body>
+</html>
